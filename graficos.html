@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gráficos - FatoCheck!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+:root{
+    --roxo:#7c3aed;
+    --roxo-escuro:#4c1d95;
+    --roxo-claro:#ede9fe;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins;
+}
+
+body{
+    background:var(--roxo-claro);
+    padding:30px;
+    text-align:center;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:var(--roxo);
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    color:#555;
+    margin-bottom:30px;
+}
+
+.grafico-container{
+    max-width:650px;
+    margin:30px auto;
+}
+
+.voltar{
+    display:inline-block;
+    margin-top:25px;
+    text-decoration:none;
+    color:var(--roxo);
+    font-weight:bold;
+}
+
+.voltar:hover{
+    color:var(--roxo-escuro);
+}
+
+#mensagem{
+    margin-top:20px;
+    color:#555;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📊 Resultados do Quiz</h1>
+
+    <p class="subtitulo">
+        Veja quais perguntas apresentam o maior número de erros.
+    </p>
+
+    <div class="grafico-container">
+        <canvas id="graficoErros"></canvas>
+    </div>
+
+    <div id="mensagem"></div>
+
+    <a href="index.html" class="voltar">
+        ⬅ Voltar ao início
+    </a>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://joajolboddinnajxrnop.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+
+const clienteSupabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+// Carrega os erros
+async function carregarGrafico(){
+
+    const { data: { session } } =
+        await clienteSupabase.auth.getSession();
+
+    if(!session){
+
+        window.location.href =
+        "login.html";
+
+        return;
+    }
+
+
+    const { data, error } =
+        await clienteSupabase
+        .rpc("get_erros_por_pergunta");
+
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById("mensagem").innerHTML =
+        "❌ Não foi possível carregar os dados.";
+
+        return;
+    }
+
+
+    if(!data || data.length === 0){
+
+        document.getElementById("mensagem").innerHTML =
+        "Ainda não existem erros registrados.";
+
+        return;
+    }
+
+
+    // Apenas perguntas que tiveram erros
+    const dadosComErros =
+        data.filter(item => Number(item.erros) > 0);
+
+
+    const labels =
+        dadosComErros.map(
+            item => "Pergunta " + item.pergunta_id
+        );
+
+
+    const valores =
+        dadosComErros.map(
+            item => Number(item.erros)
+        );
+
+
+    new Chart(
+        document.getElementById("graficoErros"),
+        {
+            type:"pie",
+
+            data:{
+                labels:labels,
+
+                datasets:[{
+                    data:valores
+                }]
+            },
+
+            options:{
+                responsive:true,
+
+                plugins:{
+                    legend:{
+                        position:"bottom"
+                    }
+                }
+            }
+        }
+    );
+
+}
+
+
+// Executa
+carregarGrafico();
+
+</script>
+
+</body>
+
+</html>

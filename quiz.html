@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiz - FatoCheck!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+rel="stylesheet">
+
+<style>
+
+:root{
+    --roxo:#7c3aed;
+    --roxo-escuro:#4c1d95;
+    --roxo-claro:#ede9fe;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins;
+}
+
+body{
+    background:var(--roxo-claro);
+    padding:30px;
+    text-align:center;
+}
+
+.quiz-container{
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    animation:surgir 0.8s ease;
+    display: none;
+}
+
+@keyframes surgir{
+
+from{
+    opacity:0;
+    transform:translateY(30px);
+}
+
+to{
+    opacity:1;
+    transform:translateY(0);
+}
+
+}
+
+h1{
+    color:var(--roxo);
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    margin-bottom:30px;
+    color:#555;
+}
+
+.pergunta{
+    margin-bottom:30px;
+    text-align:left;
+}
+
+.pergunta h3{
+    margin-bottom:15px;
+    color:var(--roxo-escuro);
+}
+
+label{
+    display:block;
+    background:#f5f3ff;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+label:hover{
+    background:#ddd6fe;
+    transform:scale(1.01);
+}
+
+input[type="radio"]{
+    margin-right:10px;
+}
+
+button{
+    background:var(--roxo);
+    color:white;
+    border:none;
+    padding:15px 35px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:var(--roxo-escuro);
+    transform:scale(1.05);
+}
+
+#resultado{
+    margin-top:30px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.voltar{
+    display:inline-block;
+    margin-top:25px;
+    text-decoration:none;
+    color:var(--roxo);
+    font-weight:bold;
+}
+
+.voltar:hover{
+    color:var(--roxo-escuro);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+<h1>🧠 Quiz sobre Fake News</h1>
+
+<p class="subtitulo">
+Teste seus conhecimentos sobre desinformação na internet.
+</p>
+
+<form id="quizForm">
+
+<!-- PERGUNTA 1 -->
+
+<div class="pergunta">
+
+<h3>
+1. Uma publicação afirma: “Após a mudança X, o número de acidentes caiu 30%”. O gráfico apresentado mostra apenas os três meses seguintes à mudança. Qual informação seria mais importante antes de concluir que X provocou a redução?
+</h3>
+
+<label>
+<input type="radio" name="q1" value="errado">
+Verificar se a publicação apresenta a porcentagem com casas decimais.
+</label>
+
+<label>
+<input type="radio" name="q1" value="certo">
+Comparar o período anterior, considerar possíveis fatores externos e verificar como os dados foram obtidos.
+</label>
+
+<label>
+<input type="radio" name="q1" value="errado">
+Confirmar se outros sites utilizaram o mesmo percentual.
+</label>
+
+<label>
+<input type="radio" name="q1" value="errado">
+Verificar se a queda apresentada no gráfico corresponde exatamente a 30%.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 2 -->
+
+<div class="pergunta">
+
+<h3>
+2. Um perfil publica um trecho verdadeiro de uma entrevista em que uma especialista faz determinada afirmação. Porém, o trecho foi retirado de uma resposta muito maior, na qual ela apresenta uma conclusão diferente. Como o trecho deve ser analisado?
+</h3>
+
+<label>
+<input type="radio" name="q2" value="errado">
+Como uma informação válida, já que as palavras da especialista foram reproduzidas sem alterações.
+</label>
+
+<label>
+<input type="radio" name="q2" value="errado">
+Como uma informação falsa, porque entrevistas não podem ser utilizadas como fontes.
+</label>
+
+<label>
+<input type="radio" name="q2" value="certo">
+Considerando o contexto completo da declaração, pois uma fala verdadeira pode produzir uma interpretação enganosa quando é recortada.
+</label>
+
+<label>
+<input type="radio" name="q2" value="errado">
+Como uma opinião pessoal do perfil, independentemente da fala original.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 3 -->
+
+<div class="pergunta">
+
+<h3>
+3. Uma pesquisa informa que 70% dos participantes preferem determinado produto. A publicação transforma o resultado em: “70% da população prefere esse produto”. Qual é o principal ponto que precisa ser investigado?
+</h3>
+
+<label>
+<input type="radio" name="q3" value="errado">
+Se a porcentagem utilizada pela publicação foi arredondada.
+</label>
+
+<label>
+<input type="radio" name="q3" value="errado">
+Se os participantes responderam à pesquisa voluntariamente.
+</label>
+
+<label>
+<input type="radio" name="q3" value="certo">
+Se a amostra permite generalizar o resultado para a população mencionada.
+</label>
+
+<label>
+<input type="radio" name="q3" value="errado">
+Se a pesquisa possui exatamente 70% de respostas positivas.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 4 -->
+
+<div class="pergunta">
+
+<h3>
+4. Duas matérias apresentam números diferentes sobre o mesmo acontecimento. Depois da comparação, percebe-se que uma considera apenas determinada região, enquanto a outra considera o país inteiro. O que isso demonstra?
+</h3>
+
+<label>
+<input type="radio" name="q4" value="errado">
+Que uma das matérias necessariamente manipulou os dados.
+</label>
+
+<label>
+<input type="radio" name="q4" value="certo">
+Que números podem ser diferentes sem serem necessariamente incompatíveis quando os recortes utilizados são distintos.
+</label>
+
+<label>
+<input type="radio" name="q4" value="errado">
+Que a fonte com o maior número de casos deve ser considerada mais confiável.
+</label>
+
+<label>
+<input type="radio" name="q4" value="errado">
+Que dados regionais não podem ser utilizados em notícias nacionais.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 5 -->
+
+<div class="pergunta">
+
+<h3>
+5. Um vídeo publicado hoje mostra uma situação que realmente aconteceu, mas a legenda afirma que ela ocorreu durante um evento realizado ontem. A gravação é posteriormente encontrada em uma publicação de três anos atrás. Qual conclusão é mais adequada?
+</h3>
+
+<label>
+<input type="radio" name="q5" value="errado">
+O vídeo é falso porque foi publicado novamente.
+</label>
+
+<label>
+<input type="radio" name="q5" value="errado">
+A publicação atual é confiável porque o vídeo realmente existe.
+</label>
+
+<label>
+<input type="radio" name="q5" value="certo">
+A existência do vídeo não confirma a afirmação temporal feita pela publicação atual.
+</label>
+
+<label>
+<input type="radio" name="q5" value="errado">
+A publicação antiga também deve ser considerada falsa por utilizar o mesmo vídeo.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 6 -->
+
+<div class="pergunta">
+
+<h3>
+6. Um artigo científico é citado em uma postagem para sustentar uma afirmação. Ao consultar o artigo, você percebe que ele apresenta uma associação entre dois fenômenos, mas não afirma que um deles causou o outro. A postagem, porém, apresenta a relação como causal. Qual análise é mais adequada?
+</h3>
+
+<label>
+<input type="radio" name="q6" value="errado">
+A postagem está correta, pois uma associação estatística demonstra uma causa quando os resultados são significativos.
+</label>
+
+<label>
+<input type="radio" name="q6" value="certo">
+A postagem pode estar extrapolando a conclusão do estudo ao transformar uma associação em uma relação de causa e efeito.
+</label>
+
+<label>
+<input type="radio" name="q6" value="errado">
+O artigo deixa de ser científico porque não estabeleceu uma relação causal.
+</label>
+
+<label>
+<input type="radio" name="q6" value="errado">
+A conclusão da postagem deve prevalecer porque foi publicada de forma mais simples.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 7 -->
+
+<div class="pergunta">
+
+<h3>
+7. Uma matéria apresenta corretamente que determinado indicador aumentou 200%. Em seguida, afirma que isso representa uma “grande maioria” da população. Qual dado adicional seria mais importante para interpretar o primeiro número?
+</h3>
+
+<label>
+<input type="radio" name="q7" value="errado">
+O tamanho da fonte utilizada no gráfico.
+</label>
+
+<label>
+<input type="radio" name="q7" value="errado">
+O número de vezes que a matéria foi compartilhada.
+</label>
+
+<label>
+<input type="radio" name="q7" value="certo">
+O valor inicial do indicador e a população ou conjunto ao qual ele se refere.
+</label>
+
+<label>
+<input type="radio" name="q7" value="errado">
+A quantidade de comentários feitos na matéria.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 8 -->
+
+<div class="pergunta">
+
+<h3>
+8. Uma página apresenta uma manchete verdadeira, mas utiliza uma fotografia real de outro acontecimento para ilustrar o texto. Qual aspecto deve ser investigado principalmente?
+</h3>
+
+<label>
+<input type="radio" name="q8" value="errado">
+Apenas se a fotografia possui boa resolução.
+</label>
+
+<label>
+<input type="radio" name="q8" value="certo">
+Se a imagem realmente corresponde ao acontecimento descrito e se sua origem pode ser identificada.
+</label>
+
+<label>
+<input type="radio" name="q8" value="errado">
+Se a fotografia recebeu autorização para ser publicada.
+</label>
+
+<label>
+<input type="radio" name="q8" value="errado">
+Se a manchete permanece verdadeira independentemente da imagem utilizada.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 9 -->
+
+<div class="pergunta">
+
+<h3>
+9. Uma pessoa encontra cinco sites afirmando a mesma coisa. Ao investigar, percebe que os cinco reproduzem informações de uma única publicação original, sem apresentar novas evidências. O que essa situação indica?
+</h3>
+
+<label>
+<input type="radio" name="q9" value="errado">
+Que existem cinco confirmações independentes da informação.
+</label>
+
+<label>
+<input type="radio" name="q9" value="errado">
+Que a informação ganhou credibilidade por ter sido reproduzida várias vezes.
+</label>
+
+<label>
+<input type="radio" name="q9" value="certo">
+Que a quantidade de páginas não representa necessariamente independência entre as fontes.
+</label>
+
+<label>
+<input type="radio" name="q9" value="errado">
+Que a publicação original deixa de ser relevante depois que outras páginas a reproduzem.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 10 -->
+
+<div class="pergunta">
+
+<h3>
+10. Um especialista é apresentado como fonte de uma informação, mas sua formação é em uma área diferente daquela relacionada ao assunto discutido. Isso significa que:
+</h3>
+
+<label>
+<input type="radio" name="q10" value="errado">
+A opinião dele deve ser considerada falsa.
+</label>
+
+<label>
+<input type="radio" name="q10" value="errado">
+Qualquer pessoa com formação acadêmica pode ser considerada especialista em qualquer assunto.
+</label>
+
+<label>
+<input type="radio" name="q10" value="certo">
+É necessário verificar se sua formação e experiência são pertinentes à afirmação que está sendo analisada.
+</label>
+
+<label>
+<input type="radio" name="q10" value="errado">
+A formação acadêmica é suficiente para determinar se uma afirmação é verdadeira.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 11 -->
+
+<div class="pergunta">
+
+<h3>
+11. Uma postagem apresenta um dado oficial e, a partir dele, afirma que determinada política “foi responsável” por uma mudança observada no período. Qual etapa adicional seria necessária para sustentar essa relação causal?
+</h3>
+
+<label>
+<input type="radio" name="q11" value="errado">
+Verificar somente se o dado foi publicado por um órgão oficial.
+</label>
+
+<label>
+<input type="radio" name="q11" value="errado">
+Confirmar se outras páginas utilizaram o mesmo argumento.
+</label>
+
+<label>
+<input type="radio" name="q11" value="certo">
+Avaliar outras possíveis causas e verificar se existem evidências que sustentem especificamente a relação de causa e efeito.
+</label>
+
+<label>
+<input type="radio" name="q11" value="errado">
+Verificar se a mudança ocorreu depois da política, pois a sequência temporal já prova a causalidade.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 12 -->
+
+<div class="pergunta">
+
+<h3>
+12. Uma imagem apresenta pequenos sinais de edição, mas não é possível determinar apenas pela aparência se ela foi manipulada. Qual procedimento oferece uma verificação mais consistente?
+</h3>
+
+<label>
+<input type="radio" name="q12" value="errado">
+Considerar a imagem falsa sempre que houver qualquer sinal visual estranho.
+</label>
+
+<label>
+<input type="radio" name="q12" value="errado">
+Considerar a imagem verdadeira porque uma edição não pode ser percebida com certeza.
+</label>
+
+<label>
+<input type="radio" name="q12" value="certo">
+Investigar a origem da imagem, versões anteriores, contexto e outras evidências relacionadas ao conteúdo.
+</label>
+
+<label>
+<input type="radio" name="q12" value="errado">
+Verificar apenas se a imagem possui alta resolução.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 13 -->
+
+<div class="pergunta">
+
+<h3>
+13. Uma publicação utiliza uma frase verdadeira para defender uma conclusão que não é sustentada diretamente pelos dados apresentados. Nesse caso, qual cuidado é mais importante?
+</h3>
+
+<label>
+<input type="radio" name="q13" value="errado">
+Verificar apenas se a frase aparece em uma fonte confiável.
+</label>
+
+<label>
+<input type="radio" name="q13" value="certo">
+Separar o que os dados realmente demonstram da interpretação ou conclusão feita pela publicação.
+</label>
+
+<label>
+<input type="radio" name="q13" value="errado">
+Considerar a conclusão válida porque a informação inicial é verdadeira.
+</label>
+
+<label>
+<input type="radio" name="q13" value="errado">
+Desconsiderar os dados porque toda interpretação de dados é subjetiva.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 14 -->
+
+<div class="pergunta">
+
+<h3>
+14. Uma notícia apresenta uma pesquisa com resultado estatisticamente significativo e conclui que o efeito observado é importante para toda a população. Qual distinção deve ser considerada?
+</h3>
+
+<label>
+<input type="radio" name="q14" value="errado">
+Um resultado estatisticamente significativo sempre representa um efeito grande.
+</label>
+
+<label>
+<input type="radio" name="q14" value="errado">
+Significância estatística e relevância prática são exatamente a mesma coisa.
+</label>
+
+<label>
+<input type="radio" name="q14" value="certo">
+Um resultado pode apresentar significância estatística sem que isso, sozinho, determine sua relevância prática ou permita qualquer generalização.
+</label>
+
+<label>
+<input type="radio" name="q14" value="errado">
+A relevância prática pode ser determinada somente pelo número de participantes.
+</label>
+
+</div>
+
+
+<!-- PERGUNTA 15 -->
+
+<div class="pergunta">
+
+<h3>
+15. Você encontra uma publicação com fonte identificada, dados aparentemente reais e uma imagem autêntica. Porém, a conclusão apresentada depende de uma interpretação que não aparece na fonte original. Qual é a avaliação mais adequada?
+</h3>
+
+<label>
+<input type="radio" name="q15" value="errado">
+A publicação deve ser considerada verdadeira porque todos os elementos utilizados são reais.
+</label>
+
+<label>
+<input type="radio" name="q15" value="errado">
+A publicação deve ser considerada falsa porque uma interpretação diferente da fonte original caracteriza manipulação.
+</label>
+
+<label>
+<input type="radio" name="q15" value="certo">
+Os elementos podem ser autênticos individualmente, mas a conclusão ainda precisa ser comparada com aquilo que as fontes realmente permitem afirmar.
+</label>
+
+<label>
+<input type="radio" name="q15" value="errado">
+A existência de uma fonte identificada torna desnecessária a análise da conclusão.
+</label>
+
+</div>
+
+
+<button type="submit">
+Ver Resultado
+</button>
+
+</form>
+
+
+<div id="resultado"></div>
+
+<a href="index.html" class="voltar">
+⬅ Voltar ao início
+</a>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://joajolboddinnajxrnop.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+
+const clienteSupabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+
+async function verificarLogin() {
+    const container = document.querySelector(".quiz-container");
+    container.style.display = "none";
+
+    try {
+        const { data, error } =
+            await clienteSupabase.auth.getSession();
+
+        if (error) throw error;
+
+        if (!data.session) {
+            window.location.replace("login.html?origem=quiz");
+            return;
+        }
+
+        container.style.display = "block";
+
+    } catch (erro) {
+        console.error("Erro ao verificar login:", erro);
+
+        document.getElementById("resultado").textContent =
+            "Não foi possível verificar seu login. Tente novamente.";
+    }
+}
+
+verificarLogin();
+
+
+
+document
+.getElementById("quizForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const totalPerguntas = 15;
+
+    const respostas =
+    document.querySelectorAll(
+        'input[type="radio"]:checked'
+    );
+
+
+    if(respostas.length < totalPerguntas){
+
+        document.getElementById("resultado").innerHTML = `
+            <div>⚠️ Responda todas as perguntas antes de finalizar.</div>
+        `;
+
+        return;
+
+    }
+
+
+    const { data: { user }, error: erroUsuario } =
+    await clienteSupabase.auth.getUser();
+
+
+    if(erroUsuario || !user){
+
+        document.getElementById("resultado").innerHTML = `
+            <div>⚠️ Você precisa estar logado.</div>
+        `;
+
+        return;
+
+    }
+
+
+    let pontos = 0;
+
+    const respostasParaSalvar = [];
+
+
+    respostas.forEach((resposta) => {
+
+        const perguntaId =
+        Number(resposta.name.replace("q", ""));
+
+        const acertou =
+        resposta.value === "certo";
+
+
+        if(acertou){
+            pontos++;
+        }
+
+
+        respostasParaSalvar.push({
+
+            user_id: user.id,
+
+            pergunta_id: perguntaId,
+
+            resposta: resposta.value,
+
+            acertou: acertou
+
+        });
+
+    });
+
+
+    const { error } =
+    await clienteSupabase
+    .from("respostas")
+    .insert(respostasParaSalvar);
+
+
+    if(error){
+
+        console.error("Erro ao salvar:", error);
+
+        document.getElementById("resultado").innerHTML = `
+            <div>❌ Erro ao salvar suas respostas.</div>
+        `;
+
+        return;
+
+    }
+
+
+    const erros =
+    totalPerguntas - pontos;
+
+
+    const percentual =
+    Math.round(
+        (pontos / totalPerguntas) * 100
+    );
+
+
+    document.getElementById("resultado").innerHTML = `
+
+        <div>✅ Acertos: ${pontos}</div>
+
+        <div>❌ Erros: ${erros}</div>
+
+        <div>📊 Aproveitamento: ${percentual}%</div>
+
+    `;
+
+});
+
+</script>
+
+</body>
+</html>

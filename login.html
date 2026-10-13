@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - FatoCheck!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--roxo:#7c3aed;
+--roxo-escuro:#4c1d95;
+--roxo-claro:#ede9fe;
+}
+
+*{
+box-sizing:border-box;
+font-family:Poppins;
+}
+
+body{
+margin:0;
+background:var(--roxo-claro);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.login{
+background:white;
+width:90%;
+max-width:450px;
+padding:35px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+.login h1{
+color:var(--roxo);
+}
+
+.login input{
+width:100%;
+padding:13px;
+margin:10px 0;
+border:2px solid #ddd;
+border-radius:10px;
+font-size:15px;
+outline:none;
+}
+
+.login input:focus{
+border-color:var(--roxo);
+}
+
+.login button{
+width:100%;
+padding:13px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:var(--roxo);
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.login button:hover{
+background:var(--roxo-escuro);
+}
+
+#mensagem{
+margin-top:15px;
+font-weight:bold;
+}
+
+.login a{
+color:var(--roxo);
+text-decoration:none;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login">
+
+<h1>🛑 FatoCheck!</h1>
+
+<h2>Entrar</h2>
+
+<form id="formLogin">
+
+<input
+type="email"
+id="email"
+placeholder="Seu e-mail"
+required
+>
+
+<input
+type="password"
+id="senha"
+placeholder="Sua senha"
+required
+>
+
+<button type="submit">
+Entrar
+</button>
+
+</form>
+
+<p>
+    <a href="#" onclick="esqueciSenha(event)">
+        Esqueci minha senha
+    </a>
+</p>
+
+<div id="mensagem"></div>
+
+<p>
+Ainda não possui uma conta?
+<a href="cadastro.html">Criar conta</a>
+</p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://joajolboddinnajxrnop.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+
+const clienteSupabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const formulario =
+document.getElementById("formLogin");
+
+const mensagem =
+document.getElementById("mensagem");
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const senha =
+    document.getElementById("senha").value;
+
+    mensagem.textContent = "⏳ Entrando...";
+    mensagem.style.color = "#7c3aed";
+
+    try {
+
+        const { data, error } =
+        await clienteSupabase.auth.signInWithPassword({
+            email: email,
+            password: senha
+        });
+
+        if (error) {
+
+            console.error("Erro no login:", error);
+
+            mensagem.textContent =
+            "❌ " + error.message;
+
+            mensagem.style.color = "red";
+
+            return;
+        }
+
+        mensagem.textContent =
+        "✅ Login realizado!";
+
+        mensagem.style.color = "green";
+
+        setTimeout(function() {
+
+            const parametros = new URLSearchParams(window.location.search);
+            const origem = parametros.get("origem");
+
+            if (origem === "quiz") {
+            window.location.href = "quiz.html";
+            } else {
+            window.location.href = "index.html";
+            }
+
+        }, 1000);
+
+    } catch (erro) {
+
+        console.error("Erro completo:", erro);
+
+        mensagem.textContent =
+        "❌ Erro de conexão: " + erro.message;
+
+        mensagem.style.color = "red";
+    }
+
+});
+
+async function esqueciSenha(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const mensagem = document.getElementById("mensagem");
+
+    if (!email) {
+        mensagem.textContent =
+            "Digite seu e-mail no campo acima.";
+        mensagem.style.color = "red";
+        document.getElementById("email").focus();
+        return;
+    }
+
+    mensagem.textContent = "Enviando e-mail...";
+    mensagem.style.color = "#7c3aed";
+
+    const redirectTo =
+        "https://analucortello-design.github.io/fatocheck8/redefinir-senha.html";
+
+    try {
+        const { error } =
+            await clienteSupabase.auth.resetPasswordForEmail(
+                email,
+                { redirectTo: redirectTo }
+            );
+
+        if (error) {
+            console.error("Erro na recuperação:", error);
+
+            mensagem.textContent =
+                "Erro ao enviar: " + error.message;
+            mensagem.style.color = "red";
+            return;
+        }
+
+        mensagem.textContent =
+            "Se esse e-mail estiver cadastrado, você receberá as instruções para redefinir a senha.";
+        mensagem.style.color = "green";
+
+    } catch (erro) {
+        console.error("Erro inesperado:", erro);
+
+        mensagem.textContent =
+            "Falha de conexão. Tente novamente.";
+        mensagem.style.color = "red";
+    }
+}
+
+</script>
+
+</body>
+</html>

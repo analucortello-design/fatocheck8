@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir senha - FatoCheck!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; font-family: Poppins, sans-serif; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ede9fe;
+        }
+        .caixa {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px #0002;
+        }
+        h1, h2 { color: #7c3aed; }
+        input, button {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        input { border: 2px solid #ddd; }
+        button {
+            border: 0;
+            background: #7c3aed;
+            color: white;
+            cursor: pointer;
+        }
+        #mensagem { overflow-wrap: anywhere; }
+    </style>
+</head>
+<body>
+    <div class="caixa">
+        <h1>🛑 FatoCheck!</h1>
+        <h2>Nova senha</h2>
+
+        <form id="formSenha">
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite a nova senha"
+                minlength="6"
+                required
+            >
+            <input
+                type="password"
+                id="confirmarSenha"
+                placeholder="Confirme a nova senha"
+                minlength="6"
+                required
+            >
+            <button type="submit">Salvar nova senha</button>
+        </form>
+
+        <p id="mensagem"></p>
+        <a href="login.html">Voltar para o login</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL =
+            "https://joajolboddinnajxrnop.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+
+        const clienteSupabase = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        const formulario = document.getElementById("formSenha");
+        const mensagem = document.getElementById("mensagem");
+
+        formulario.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const senha = document.getElementById("senha").value;
+            const confirmar =
+                document.getElementById("confirmarSenha").value;
+
+            if (senha.length < 6) {
+                mensagem.textContent =
+                    "A senha precisa ter pelo menos 6 caracteres.";
+                return;
+            }
+
+            if (senha !== confirmar) {
+                mensagem.textContent = "As senhas não são iguais.";
+                return;
+            }
+
+            mensagem.textContent = "Salvando nova senha...";
+
+            const { data: sessaoData, error: erroSessao } =
+                await clienteSupabase.auth.getSession();
+
+            if (erroSessao || !sessaoData.session) {
+                mensagem.textContent =
+                    "Link inválido ou expirado. Solicite outro e-mail de recuperação.";
+                return;
+            }
+
+            const { error } = await clienteSupabase.auth.updateUser({
+                password: senha
+            });
+
+            if (error) {
+                mensagem.textContent =
+                    "Não foi possível alterar a senha. Solicite um novo link se necessário.";
+                console.error(error);
+                return;
+            }
+
+            mensagem.textContent =
+                "Senha alterada com sucesso! Você já pode entrar.";
+            formulario.reset();
+
+            await clienteSupabase.auth.signOut();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FatoCheck!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--roxo:#7c3aed;
+--roxo-escuro:#4c1d95;
+--roxo-claro:#ede9fe;
+}
+
+*{
+box-sizing:border-box;
+font-family:Poppins;
+transition:0.3s;
+}
+
+body{
+margin:0;
+background:var(--roxo-claro);
+text-align:center;
+}
+
+ul{
+list-style-position:inside;
+padding:0;
+}
+
+/* MENU */
+.menu-btn{
+position:fixed;
+top:20px;
+left:20px;
+background:var(--roxo);
+color:white;
+border:none;
+font-size:26px;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+z-index:1000;
+}
+
+.menu-btn:hover{
+transform:scale(1.1);
+}
+
+.menu{
+position:fixed;
+left:-260px;
+top:0;
+width:250px;
+height:100%;
+background:var(--roxo-escuro);
+padding-top:60px;
+transition:0.4s;
+z-index: 999;
+}
+
+.menu a{
+display:block;
+text-align:center;
+color:white;
+padding:15px;
+text-decoration:none;
+font-size:18px;
+}
+
+.menu a:hover{
+color:var(--roxo);
+transform:scale(1.05);
+}
+
+/* HEADER */
+header{
+background:linear-gradient(135deg,#7c3aed,#a78bfa);
+color:white;
+padding:70px 20px;
+text-align:center;
+}
+
+/* SECTIONS */
+section{
+background:white;
+max-width:900px;
+margin:30px auto;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+animation:surgir 0.8s ease;
+}
+
+section:hover{
+transform:scale(1.01);
+position: relative;
+z-index: 1;
+}
+
+@keyframes surgir{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+h2{
+color:var(--roxo);
+text-align:center;
+}
+
+a{
+color:var(--roxo);
+}
+
+/* VERIFICAÇÃO */
+.verificacao{
+background:#ddd6fe;
+max-width:900px;
+margin:30px auto;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.verificacao input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:2px solid var(--roxo);
+font-size:16px;
+margin-bottom:15px;
+outline:none;
+}
+
+.verificacao input:focus{
+border-color:var(--roxo-escuro);
+box-shadow:0 0 8px rgba(124,58,237,0.5);
+}
+
+.verificacao button{
+background:var(--roxo);
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+.verificacao button:hover{
+background:var(--roxo-escuro);
+transform:scale(1.05);
+}
+
+#resultadoIA{
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+line-height:1.6;
+}
+
+/* CARDS */
+.noticias{
+max-width:1200px;
+margin:40px auto;
+}
+
+.grid-noticias{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+margin-top:30px;
+}
+
+.card-noticia{
+background:white;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+overflow:hidden;
+padding-bottom:20px;
+transition:0.3s;
+}
+
+.card-noticia:hover{
+transform:translateY(-8px);
+position: relative;
+z-index: 1;
+}
+
+.card-noticia img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.card-noticia h3{
+padding:15px;
+color:var(--roxo);
+}
+
+.card-noticia p{
+padding:0 15px 10px 15px;
+}
+
+.btn-noticia{
+display:inline-block;
+margin:10px 15px;
+padding:10px 20px;
+border:2px solid var(--roxo);
+border-radius:25px;
+text-decoration:none;
+color:var(--roxo);
+font-weight:bold;
+}
+
+.btn-noticia:hover{
+background:var(--roxo);
+color:white;
+}
+
+.fonte{
+font-size:13px;
+color:gray;
+padding-left:15px;
+}
+
+footer{
+background:#4c1d95;
+color:white;
+text-align:center;
+padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<button class="menu-btn" id="menuBtn" onclick="abrir()">☰</button>
+
+<div class="menu" id="menu">
+<a href="index.html">Início</a>
+<a href="quiz.html" onclick="return acessarQuiz(event)">Quiz</a>
+<a href="cadastro.html">Criar conta</a>
+<a href="login.html">Entrar</a>
+<a href="sobre.html">Sobre nós</a>
+<a href="graficos.html">Resultados</a>
+<a href="#" onclick="sairDaConta(event)">Sair da conta</a>
+</div>
+
+<header>
+<h1>🛑 FatoCheck!</h1>
+<p>Educação digital contra a desinformação</p>
+</header>
+
+<section>
+<h2>Bem-vindo</h2>
+<p>
+Este site ajuda jovens a aprenderem como identificar notícias falsas
+e usar a internet de forma responsável.
+</p>
+</section>
+
+<section>
+<h2>O que são Fake News?</h2>
+<p>
+São informações falsas ou manipuladas divulgadas como se fossem verdadeiras.
+</p>
+</section>
+
+<section>
+<h2>Como identificar</h2>
+
+<ul>
+<li>Verifique a fonte</li>
+<li>Leia além do título</li>
+<li>Veja a data</li>
+<li>Pesquise em sites confiáveis</li>
+</ul>
+
+</section>
+
+<section class="verificacao">
+
+<h2>Verificar Notícia</h2>
+
+<p>
+Cole um trecho da notícia abaixo e veja se ela já foi checada
+por sites confiáveis.
+</p>
+
+<input
+type="text"
+id="busca"
+placeholder="Cole a notícia aqui..."
+onkeypress="if(event.key === 'Enter'){ verificarNoticia(); }"
+>
+
+<button onclick="verificarNoticia()">Verificar</button>
+
+<div id="resultadoIA"></div>
+
+</section>
+
+<section class="noticias">
+
+<section id="secaoHistorico" style="display:none;">
+    <h2>🕘 Histórico de pesquisas</h2>
+    <p>As notícias que você pesquisou nesta conta aparecem aqui.</p>
+    <div id="listaHistorico"></div>
+    <button
+        id="limparHistorico"
+        type="button"
+        onclick="limparHistoricoPesquisas()"
+        style="display:none; background:#7c3aed; color:white;
+        border:0; padding:10px 20px; border-radius:8px; cursor:pointer;">
+        Limpar histórico
+    </button>
+</section>
+
+<h2>📰 Assuntos que geram mais dúvidas</h2>
+
+<div class="grid-noticias">
+
+<div class="card-noticia">
+<img src="reducao_jornada.png" alt="Trabalho">
+
+<h3>Redução da jornada de trabalho no Brasil</h3>
+
+<p>
+Entenda o debate sobre redução da carga horária e seus impactos econômicos.
+</p>
+
+<a href="https://www.bbc.com/portuguese"
+target="_blank"
+class="btn-noticia">
+LEIA MAIS
+</a>
+
+<p class="fonte">Fonte: BBC Brasil</p>
+</div>
+
+<div class="card-noticia">
+<img src="images.jpg" alt="Congresso">
+
+<h3>Reajuste salarial para servidores</h3>
+
+<p>
+Veja como funcionam os reajustes aprovados na Câmara
+e o impacto no orçamento.
+</p>
+
+<a href="https://www.aosfatos.org"
+target="_blank"
+class="btn-noticia">
+LEIA MAIS
+</a>
+
+<p class="fonte">Fonte: Aos Fatos</p>
+</div>
+
+<div class="card-noticia">
+<img src="cnh.jpg" alt="CNH">
+
+<h3>CNH sem autoescola</h3>
+
+<p>
+Entenda o debate sobre o possível fim da obrigatoriedade da autoescola.
+</p>
+
+<a href="https://lupa.uol.com.br"
+target="_blank"
+class="btn-noticia">
+LEIA MAIS
+</a>
+
+<p class="fonte">Fonte: Agência Lupa</p>
+</div>
+
+</div>
+</section>
+
+<section>
+
+<h2>Sites recomendados</h2>
+
+<ul>
+<li><a href="https://www.aosfatos.org" target="_blank">Aos Fatos</a></li>
+<li><a href="https://lupa.uol.com.br" target="_blank">Agência Lupa</a></li>
+<li><a href="https://www.bbc.com/portuguese" target="_blank">BBC Brasil</a></li>
+<li><a href="https://www.agenciapublica.org" target="_blank">Agência Pública</a></li>
+</ul>
+
+</section>
+
+<footer>
+Projeto TCC - Técnico em Informática
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://joajolboddinnajxrnop.supabase.co";
+const SUPABASE_KEY = "sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+
+const clienteSupabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+async function acessarQuiz(event) {
+    event.preventDefault();
+
+    const { data, error } =
+        await clienteSupabase.auth.getSession();
+
+    if (error || !data.session) {
+        window.location.href = "login.html?origem=quiz";
+        return;
+    }
+
+    window.location.href = "quiz.html";
+}
+</script>
+
+<script>
+
+function abrir(){
+
+const menu = document.getElementById("menu");
+const botao = document.getElementById("menuBtn");
+
+if(menu.style.left === "0px"){
+
+menu.style.left = "-260px";
+botao.innerHTML = "☰";
+
+}else{
+
+menu.style.left = "0px";
+botao.innerHTML = "✖";
+
+
+
+}
+
+}
+
+async function verificarNoticia() {
+    const campo = document.getElementById("busca");
+    const resultado = document.getElementById("resultadoIA");
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        alert("Digite ou cole uma notícia.");
+        return;
+    }
+
+    resultado.textContent = "Pesquisando...";
+
+    const { data: sessaoData } =
+        await clienteSupabase.auth.getSession();
+
+    if (sessaoData.session) {
+        const { error } = await clienteSupabase
+            .from("historico_pesquisas")
+            .insert({
+                user_id: sessaoData.session.user.id,
+                pesquisa: texto
+            });
+
+        if (error) {
+            console.error("Erro ao salvar pesquisa:", error);
+        } else {
+            await carregarHistorico();
+        }
+    }
+
+    const sites =
+        "site:lupa.uol.com.br OR site:aosfatos.org OR site:boatos.org";
+
+    const query = texto + " " + sites;
+    const url =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(query);
+
+    resultado.textContent =
+        "Abrindo o Google para procurar verificações dessa notícia.";
+
+    window.open(url, "_blank");
+}
+
+
+</script>
+
+<script>
+async function sairDaConta(event) {
+    event.preventDefault();
+
+    const { error } =
+        await clienteSupabase.auth.signOut();
+
+    if (error) {
+        console.error("Erro ao sair:", error);
+        alert("Não foi possível sair da conta.");
+        return;
+    }
+
+    window.location.href = "login.html";
+}
+</script>
+
+<script>
+async function carregarHistorico() {
+    const { data: sessaoData, error: erroSessao } =
+        await clienteSupabase.auth.getSession();
+
+    const secao = document.getElementById("secaoHistorico");
+    const lista = document.getElementById("listaHistorico");
+    const botaoLimpar = document.getElementById("limparHistorico");
+
+    if (erroSessao || !sessaoData.session) {
+        secao.style.display = "none";
+        return;
+    }
+
+    secao.style.display = "block";
+    lista.textContent = "Carregando histórico...";
+
+    const { data, error } = await clienteSupabase
+        .from("historico_pesquisas")
+        .select("id, pesquisa, criado_em")
+        .order("criado_em", { ascending: false })
+        .limit(20);
+
+    if (error) {
+        console.error("Erro ao carregar histórico:", error);
+        lista.textContent = "Não foi possível carregar o histórico.";
+        botaoLimpar.style.display = "none";
+        return;
+    }
+
+    lista.replaceChildren();
+
+    if (!data.length) {
+        lista.textContent = "Você ainda não fez pesquisas nesta conta.";
+        botaoLimpar.style.display = "none";
+        return;
+    }
+
+    for (const item of data) {
+        const registro = document.createElement("div");
+        registro.style.cssText =
+            "background:#ede9fe; padding:12px; margin:10px 0; border-radius:8px;";
+
+        const texto = document.createElement("p");
+        texto.textContent = item.pesquisa;
+
+        const dataPesquisa = document.createElement("small");
+        dataPesquisa.textContent =
+            new Date(item.criado_em).toLocaleString("pt-BR");
+
+        registro.append(texto, dataPesquisa);
+        lista.appendChild(registro);
+    }
+
+    botaoLimpar.style.display = "inline-block";
+}
+
+async function limparHistoricoPesquisas() {
+    if (!confirm("Deseja apagar todo o seu histórico de pesquisas?")) {
+        return;
+    }
+
+    const { data: sessaoData, error: erroSessao } =
+        await clienteSupabase.auth.getSession();
+
+    if (erroSessao || !sessaoData.session) {
+        alert("Entre na sua conta para gerenciar o histórico.");
+        return;
+    }
+
+    const userId = sessaoData.session.user.id;
+
+    const { error } = await clienteSupabase
+        .from("historico_pesquisas")
+        .delete()
+        .eq("user_id", userId);
+
+    if (error) {
+        alert("Não foi possível apagar o histórico.");
+        console.error(error);
+        return;
+    }
+
+    await carregarHistorico();
+}
+
+
+async function atualizarMenu() {
+    const { data, error } =
+        await clienteSupabase.auth.getSession();
+
+    const logado = !error && !!data?.session;
+
+    const linkEntrar = document.querySelector(
+        '#menu a[href="login.html"]'
+    );
+
+    const linkCadastro = document.querySelector(
+        '#menu a[href="cadastro.html"]'
+    );
+
+    const linkSair = [...document.querySelectorAll("#menu a")]
+        .find(link => link.textContent.trim() === "Sair da conta");
+
+    if (linkEntrar) {
+        linkEntrar.style.display = logado ? "none" : "block";
+    }
+
+    if (linkCadastro) {
+        linkCadastro.style.display = logado ? "none" : "block";
+    }
+
+    if (linkSair) {
+    linkSair.style.display = "block";
+}
+
+    if (logado) {
+        await carregarHistorico();
+    } else {
+        document.getElementById("secaoHistorico").style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", atualizarMenu);
+
+</script>
+
+</body>
+</html>
