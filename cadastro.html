@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -10,91 +11,93 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
---roxo:#7c3aed;
---roxo-escuro:#4c1d95;
---roxo-claro:#ede9fe;
+:root {
+    --roxo: #7c3aed;
+    --roxo-escuro: #4c1d95;
+    --roxo-claro: #ede9fe;
 }
 
-*{
-box-sizing:border-box;
-font-family:Poppins;
+* {
+    box-sizing: border-box;
+    font-family: Poppins;
 }
 
-body{
-margin:0;
-background:var(--roxo-claro);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+body {
+    margin: 0;
+    background: var(--roxo-claro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.cadastro{
-background:white;
-width:90%;
-max-width:450px;
-padding:35px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-text-align:center;
+.cadastro {
+    background: white;
+    width: 90%;
+    max-width: 450px;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
 }
 
-.cadastro h1{
-color:var(--roxo);
-margin-bottom:10px;
+.cadastro h1 {
+    color: var(--roxo);
+    margin-bottom: 10px;
 }
 
-.cadastro p{
-color:#555;
+.cadastro p {
+    color: #555;
 }
 
-.cadastro input{
-width:100%;
-padding:13px;
-margin:10px 0;
-border:2px solid #ddd;
-border-radius:10px;
-font-size:15px;
-outline:none;
+.cadastro input {
+    width: 100%;
+    padding: 13px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
 }
 
-.cadastro input:focus{
-border-color:var(--roxo);
+.cadastro input:focus {
+    border-color: var(--roxo);
 }
 
-.cadastro button{
-width:100%;
-padding:13px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:var(--roxo);
-color:white;
-font-size:16px;
-cursor:pointer;
+.cadastro button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: var(--roxo);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.cadastro button:hover{
-background:var(--roxo-escuro);
+.cadastro button:hover {
+    background: var(--roxo-escuro);
 }
 
-#mensagem{
-margin-top:15px;
-font-weight:bold;
+#mensagem {
+    margin-top: 15px;
+    font-weight: bold;
 }
 
-.login{
-margin-top:20px;
+#confirmarEmail {
+    background: var(--roxo-escuro);
 }
 
-.login a{
-color:var(--roxo);
-text-decoration:none;
-font-weight:bold;
+.login {
+    margin-top: 20px;
 }
 
+.login a {
+    color: var(--roxo);
+    text-decoration: none;
+    font-weight: bold;
+}
 </style>
 </head>
 
@@ -102,179 +105,211 @@ font-weight:bold;
 
 <div class="cadastro">
 
-<h1>🛑 FatoCheck!</h1>
+    <h1>🛑 FatoCheck!</h1>
 
-<h2>Criar uma conta</h2>
+    <h2>Criar uma conta</h2>
 
-<p>Crie sua conta para acompanhar suas atividades no site.</p>
+    <p>Crie sua conta para acompanhar suas atividades no site.</p>
 
-<form id="formCadastro">
+    <form id="formCadastro">
 
-<input
-type="email"
-id="email"
-placeholder="Digite seu e-mail"
-required
->
+        <input
+            type="email"
+            id="email"
+            placeholder="Digite seu e-mail"
+            required
+        >
 
-<input
-type="password"
-id="senha"
-placeholder="Digite sua senha"
-required
->
+        <input
+            type="password"
+            id="senha"
+            placeholder="Digite sua senha"
+            required
+        >
 
-<input
-type="password"
-id="confirmarSenha"
-placeholder="Confirme sua senha"
-required
->
+        <input
+            type="password"
+            id="confirmarSenha"
+            placeholder="Confirme sua senha"
+            required
+        >
 
-<button type="submit">
-Criar conta
-</button>
+        <button type="submit">Criar conta</button>
 
-</form>
+    </form>
 
-<p id="mensagem"></p>
+    <p id="mensagem"></p>
 
-<div class="login">
+    <button
+        type="button"
+        id="confirmarEmail"
+        style="display:none;"
+    >
+        Já confirmei meu e-mail
+    </button>
 
-<p>
-Já possui uma conta?
-<a href="login.html">Entrar</a>
-</p>
+    <div class="login">
+        <p>
+            Já possui uma conta?
+            <a href="login.html">Entrar</a>
+        </p>
+    </div>
 
 </div>
 
-</div>
-
-
-<!-- BIBLIOTECA DO SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 const SUPABASE_URL =
-"https://joajolboddinnajxrnop.supabase.co";
+    "https://joajolboddinnop.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
+    "sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
 
-
-const clienteSupabase =
-window.supabase.createClient(
+const clienteSupabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
-console.log("Cliente Supabase: ", clienteSupabase);
+const formulario = document.getElementById("formCadastro");
+const mensagem = document.getElementById("mensagem");
+const botaoConfirmarEmail = document.getElementById("confirmarEmail");
 
+// Identifica de onde o usuário veio
+const parametros = new URLSearchParams(window.location.search);
+const origem = parametros.get("origem");
 
-const formulario =
-document.getElementById("formCadastro");
+const paginaDestino = origem === "quiz"
+    ? "quiz.html"
+    : "index.html";
 
-const mensagem =
-document.getElementById("mensagem");
-
-
-formulario.addEventListener("submit", async function(event){
-
+// CADASTRO
+formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
 
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
 
-    const email =
-    document.getElementById("email").value.trim();
-
-
-    const senha =
-    document.getElementById("senha").value;
-
-
-    const confirmarSenha =
-    document.getElementById("confirmarSenha").value;
-
-
-    mensagem.textContent =
-    "⏳ Tentando criar sua conta...";
-
+    mensagem.textContent = "⏳ Tentando criar sua conta...";
     mensagem.style.color = "#7c3aed";
 
+    botaoConfirmarEmail.style.display = "none";
 
-    if(senha !== confirmarSenha){
-
-        mensagem.textContent =
-        "❌ As senhas não são iguais.";
-
+    if (senha !== confirmarSenha) {
+        mensagem.textContent = "❌ As senhas não são iguais.";
         mensagem.style.color = "red";
-
         return;
-
     }
 
-
-    if(senha.length < 6){
-
+    if (senha.length < 6) {
         mensagem.textContent =
-        "❌ A senha precisa ter pelo menos 6 caracteres.";
-
+            "❌ A senha precisa ter pelo menos 6 caracteres.";
         mensagem.style.color = "red";
-
         return;
-
     }
 
+    try {
+        const { data, error } = await clienteSupabase.auth.signUp({
+            email: email,
+            password: senha,
+            options: {
+                emailRedirectTo:
+                    "https://analucortello-design.github.io/fatocheck8/" +
+                    paginaDestino
+            }
+        });
 
-    
-try {
-    const origem = new URLSearchParams(window.location.search).get("origem");
-
-    const paginaDestino = origem === "quiz"
-        ? "quiz.html"
-        : "index.html";
-
-    const { data, error } = await clienteSupabase.auth.signUp({
-        email: email,
-        password: senha,
-        options: {
-            emailRedirectTo:
-                "https://analucortello-design.github.io/fatocheck8/" + paginaDestino
+        if (error) {
+            mensagem.textContent =
+                "❌ Erro ao criar conta: " + error.message;
+            mensagem.style.color = "red";
+            console.error("Erro do Supabase:", error);
+            return;
         }
-    });
 
-    if (error) {
-        mensagem.textContent = "❌ Erro ao criar conta: " + error.message;
-        mensagem.style.color = "red";
-        console.error("Erro do Supabase:", error);
-        return;
-    }
+        if (!data || !data.user) {
+            mensagem.textContent =
+                "❌ Não foi possível concluir o cadastro.";
+            mensagem.style.color = "red";
+            return;
+        }
 
-    if (!data || !data.user) {
-        mensagem.textContent = "❌ Não foi possível concluir o cadastro.";
-        mensagem.style.color = "red";
-        return;
-    }
+        // Cadastro aguardando confirmação do e-mail
+        if (!data.session) {
+            mensagem.textContent =
+                "✅ Cadastro realizado! Confirme seu e-mail e depois clique no botão abaixo.";
+            mensagem.style.color = "green";
 
-    if (!data.session) {
-        mensagem.textContent =
-            "✅ Cadastro realizado! Confira seu e-mail e clique no link de confirmação para continuar.";
+            botaoConfirmarEmail.style.display = "block";
+            return;
+        }
+
+        // Caso o Supabase já crie uma sessão
+        mensagem.textContent = "✅ Cadastro realizado!";
         mensagem.style.color = "green";
-        return;
+
+        window.location.href = paginaDestino;
+
+    } catch (erro) {
+        console.error("Erro completo:", erro);
+        mensagem.textContent =
+            "❌ Erro: " + (erro?.message || String(erro));
+        mensagem.style.color = "red";
     }
-
-    window.location.href = paginaDestino;
-
-} catch (erro) {
-    console.error("Erro completo:", erro);
-    mensagem.textContent = "❌ Erro: " + (erro?.message || String(erro));
-    mensagem.style.color = "red";
-}
-
-
 });
 
+// BOTÃO "JÁ CONFIRMEI MEU E-MAIL"
+botaoConfirmarEmail.addEventListener("click", async function() {
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+
+    if (!email || !senha) {
+        mensagem.textContent =
+            "❌ Digite seu e-mail e sua senha para entrar.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    mensagem.textContent = "⏳ Verificando sua conta...";
+    mensagem.style.color = "#7c3aed";
+
+    botaoConfirmarEmail.disabled = true;
+
+    try {
+        const { data, error } =
+            await clienteSupabase.auth.signInWithPassword({
+                email: email,
+                password: senha
+            });
+
+        if (error) {
+            mensagem.textContent =
+                "❌ Não foi possível entrar. Confirme o e-mail e confira sua senha.";
+            mensagem.style.color = "red";
+            console.error("Erro ao entrar:", error);
+            return;
+        }
+
+        if (data.user && data.session) {
+            mensagem.textContent = "✅ Login realizado! Redirecionando...";
+            mensagem.style.color = "green";
+
+            window.location.href = paginaDestino;
+        }
+
+    } catch (erro) {
+        console.error("Erro completo:", erro);
+        mensagem.textContent =
+            "❌ Erro ao entrar: " + (erro?.message || String(erro));
+        mensagem.style.color = "red";
+
+    } finally {
+        botaoConfirmarEmail.disabled = false;
+    }
+});
 </script>
 
 </body>
 </html>
+```
