@@ -226,74 +226,51 @@ formulario.addEventListener("submit", async function(event){
     }
 
 
-    try{
+    
+try {
+    const origem = new URLSearchParams(window.location.search).get("origem");
 
-        const origem = new
-        URLSearchParams(window.location.search).get("origem");
+    const paginaDestino = origem === "quiz"
+        ? "quiz.html"
+        : "index.html";
 
-        const paginaDestino = origem ===
-        "quiz"
-            ? "quiz.html"
-            : "index.html";
-
-        const { data, error } = await 
-        clienteSupabase.auth.signUp({
-
-            email: email,
-
-            password: senha,
-
-            options: {
-                emailRedirectTo:
+    const { data, error } = await clienteSupabase.auth.signUp({
+        email: email,
+        password: senha,
+        options: {
+            emailRedirectTo:
                 "https://analucortello-design.github.io/fatocheck8/" + paginaDestino
-            }
-
-
-        });
-
-
-        if(error){
-
-            mensagem.textContent =
-            "❌ Erro ao criar conta. " + error.message;
-
-            mensagem.style.color = "red";
-
-            console.error(error);
-
-            return;
-
         }
+    });
 
-        if (data.user && !data.session){
-
-            mensagem.textContent =
-        "✅ Verifique seu email e clique no link de confirmação para continuar!";
-
-        mensagem.style.color = "green";
-
-            return;
-
-        }
-
-        if (data.session){
-            window.location.href = paginaDestino;
-        }
-
-
-    }catch(erro){
-
-        console.error(
-            "ERRO COMPLETO:",
-            erro
-        );
-
-        mensagem.textContent =
-        "❌ Erro de conexão: " + erro.message;
-
+    if (error) {
+        mensagem.textContent = "❌ Erro ao criar conta: " + error.message;
         mensagem.style.color = "red";
-
+        console.error("Erro do Supabase:", error);
+        return;
     }
+
+    if (!data || !data.user) {
+        mensagem.textContent = "❌ Não foi possível concluir o cadastro.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    if (!data.session) {
+        mensagem.textContent =
+            "✅ Cadastro realizado! Confira seu e-mail e clique no link de confirmação para continuar.";
+        mensagem.style.color = "green";
+        return;
+    }
+
+    window.location.href = paginaDestino;
+
+} catch (erro) {
+    console.error("Erro completo:", erro);
+    mensagem.textContent = "❌ Erro: " + (erro?.message || String(erro));
+    mensagem.style.color = "red";
+}
+
 
 });
 
