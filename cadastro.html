@@ -228,12 +228,26 @@ formulario.addEventListener("submit", async function(event){
 
     try{
 
-        const { data, error } =
-        await clienteSupabase.auth.signUp({
+        const origem = new
+        URLSearchParams(window.location.search).get("origem");
+
+        const paginaDestino = origem ===
+        "quiz"
+            ? "quiz.html"
+            : "index.html";
+
+        const { data, error } = await 
+        clienteSupabase.auth.signUp({
 
             email: email,
 
-            password: senha
+            password: senha,
+
+            options: {
+                emailRedirectTo:
+                "https://analucortello-design.github.io/fatocheck8/" + paginaDestino
+            }
+
 
         });
 
@@ -241,7 +255,7 @@ formulario.addEventListener("submit", async function(event){
         if(error){
 
             mensagem.textContent =
-            "❌ Erro: " + error.message;
+            "❌ Erro ao criar conta. " + error.message;
 
             mensagem.style.color = "red";
 
@@ -251,32 +265,20 @@ formulario.addEventListener("submit", async function(event){
 
         }
 
+        if (data.user && !datasession){
 
-        mensagem.textContent =
-        "✅ Verifique seu email para confirmar o cadastro!";
-
-        mensagem.style.color = "green";
-
-
-        console.log(
-            "Usuário cadastrado:",
-            data
-        );
+            mensagem.textContent =
+        "✅ Verifique seu email e clique no link de confirmação para continuar!";
 
         mensagem.style.color = "green";
 
-        setTimeout(function() {
+            return;
 
-            const parametros = new URLSearchParams(window.location.search);
-            const origem = parametros.get("origem");
+        }
 
-            if (origem === "quiz") {
-            window.location.href = "quiz.html";
-            } else {
-            window.location.href = "index.html";
-            }
-
-        }, 1000);
+        if (data.session){
+            window.location.href = paginaDestino;
+        }
 
 
     }catch(erro){
