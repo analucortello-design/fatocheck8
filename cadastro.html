@@ -84,10 +84,6 @@ body {
     font-weight: bold;
 }
 
-#confirmarEmail {
-    background: var(--roxo-escuro);
-}
-
 .login {
     margin-top: 20px;
 }
@@ -139,13 +135,6 @@ body {
 
     <p id="mensagem"></p>
 
-    <button
-        type="button"
-        id="confirmarEmail"
-        style="display:none;"
-    >
-        Já confirmei meu e-mail
-    </button>
 
     <div class="login">
         <p>
@@ -155,6 +144,7 @@ body {
     </div>
 
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -172,8 +162,6 @@ const clienteSupabase = window.supabase.createClient(
 
 const formulario = document.getElementById("formCadastro");
 const mensagem = document.getElementById("mensagem");
-const botaoConfirmarEmail = document.getElementById("confirmarEmail");
-
 
 const parametros = new URLSearchParams(window.location.search);
 const origem = parametros.get("origem");
@@ -187,12 +175,8 @@ formulario.addEventListener("submit", async function(event) {
 
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value;
-    const confirmarSenha = document.getElementById("confirmarSenha").value;
-
-    mensagem.textContent = "⏳ Tentando criar sua conta...";
-    mensagem.style.color = "#7c3aed";
-
-    botaoConfirmarEmail.style.display = "none";
+    const confirmarSenha =
+        document.getElementById("confirmarSenha").value;
 
     if (senha !== confirmarSenha) {
         mensagem.textContent = "❌ As senhas não são iguais.";
@@ -207,43 +191,48 @@ formulario.addEventListener("submit", async function(event) {
         return;
     }
 
+    mensagem.textContent = "⏳ Criando sua conta...";
+    mensagem.style.color = "#7c3aed";
+
+    const destino =
+        "https://analucortello-design.github.io/fatocheck8/" +
+        "auth-callback.html?destino=" + paginaDestino;
+
     try {
-        const { data, error } = await clienteSupabase.auth.signUp({
-            email: email,
-            password: senha,
-            options: {
-                emailRedirectTo:
-                    "https://analucortello-design.github.io/fatocheck8/" +
-                    paginaDestino
-            }
-        });
+        const { data, error } =
+            await clienteSupabase.auth.signUp({
+                email: email,
+                password: senha,
+                options: {
+                    emailRedirectTo: destino
+                }
+            });
 
         if (error) {
+            console.error("Erro no cadastro:", error);
             mensagem.textContent =
                 "❌ Erro ao criar conta: " + error.message;
             mensagem.style.color = "red";
-            console.error("Erro do Supabase:", error);
             return;
         }
 
-        if (!data || !data.user) {
+        if (!data.user) {
             mensagem.textContent =
-                "❌ Não foi possível concluir o cadastro.";
+                "❌ Não foi possível criar sua conta.";
             mensagem.style.color = "red";
             return;
         }
 
-        // Cadastro aguardando confirmação do e-mail
         if (!data.session) {
             mensagem.textContent =
-                "✅ Cadastro realizado! Confirme seu e-mail e depois clique no botão abaixo.";
+                "✅ Cadastro realizado! Confira seu e-mail e clique no link de confirmação para continuar.";
             mensagem.style.color = "green";
-
-            botaoConfirmarEmail.style.display = "block";
+            formulario.reset();
             return;
         }
 
-        mensagem.textContent = "✅ Cadastro realizado!";
+        mensagem.textContent =
+            "✅ Cadastro realizado! Redirecionando...";
         mensagem.style.color = "green";
 
         window.location.href = paginaDestino;
@@ -251,60 +240,13 @@ formulario.addEventListener("submit", async function(event) {
     } catch (erro) {
         console.error("Erro completo:", erro);
         mensagem.textContent =
-            "❌ Erro: " + (erro?.message || String(erro));
+            "❌ Falha de conexão: " +
+            (erro.message || String(erro));
         mensagem.style.color = "red";
-    }
-});
-
-botaoConfirmarEmail.addEventListener("click", async function() {
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value;
-
-    if (!email || !senha) {
-        mensagem.textContent =
-            "❌ Digite seu e-mail e sua senha para entrar.";
-        mensagem.style.color = "red";
-        return;
-    }
-
-    mensagem.textContent = "⏳ Verificando sua conta...";
-    mensagem.style.color = "#7c3aed";
-
-    botaoConfirmarEmail.disabled = true;
-
-    try {
-        const { data, error } =
-            await clienteSupabase.auth.signInWithPassword({
-                email: email,
-                password: senha
-            });
-
-        if (error) {
-            mensagem.textContent =
-                "❌ Não foi possível entrar. Confirme o e-mail e confira sua senha.";
-            mensagem.style.color = "red";
-            console.error("Erro ao entrar:", error);
-            return;
-        }
-
-        if (data.user && data.session) {
-            mensagem.textContent = "✅ Login realizado! Redirecionando...";
-            mensagem.style.color = "green";
-
-            window.location.href = paginaDestino;
-        }
-
-    } catch (erro) {
-        console.error("Erro completo:", erro);
-        mensagem.textContent =
-            "❌ Erro ao entrar: " + (erro?.message || String(erro));
-        mensagem.style.color = "red";
-
-    } finally {
-        botaoConfirmarEmail.disabled = false;
     }
 });
 </script>
+
 
 </body>
 </html>
