@@ -160,7 +160,7 @@ body {
 
 <script>
 const SUPABASE_URL =
-    "https://joajolboddinnop.supabase.co";
+    "https://joajolboddinnajxrnop.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_EEaShgemq6o_yjfZSnwCJA_9gV1OJyc";
@@ -174,7 +174,7 @@ const formulario = document.getElementById("formCadastro");
 const mensagem = document.getElementById("mensagem");
 const botaoConfirmarEmail = document.getElementById("confirmarEmail");
 
-// Identifica de onde o usuário veio
+
 const parametros = new URLSearchParams(window.location.search);
 const origem = parametros.get("origem");
 
@@ -182,7 +182,6 @@ const paginaDestino = origem === "quiz"
     ? "quiz.html"
     : "index.html";
 
-// CADASTRO
 formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -244,7 +243,6 @@ formulario.addEventListener("submit", async function(event) {
             return;
         }
 
-        // Caso o Supabase já crie uma sessão
         mensagem.textContent = "✅ Cadastro realizado!";
         mensagem.style.color = "green";
 
@@ -258,7 +256,6 @@ formulario.addEventListener("submit", async function(event) {
     }
 });
 
-// BOTÃO "JÁ CONFIRMEI MEU E-MAIL"
 botaoConfirmarEmail.addEventListener("click", async function() {
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value;
